@@ -1,7 +1,14 @@
 import React from "react"
 
-exports.onRenderBody = ({ setHeadComponents }, pluginOptions) => {
+exports.onRenderBody = ({ setHeadComponents, pathname }, pluginOptions) => {
   if (process.env.NODE_ENV === `production`) {
+    if (
+      Array.isArray(pluginOptions.exclude) &&
+      pluginOptions.exclude.includes(pathname)
+    ) {
+      return null
+    }
+
     return setHeadComponents([
       <script
         key={`gatsby-plugin-fullstory`}
